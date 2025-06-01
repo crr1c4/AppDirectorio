@@ -75,8 +75,12 @@ class ContactoViewModel @Inject constructor(
 
     private fun validarFormulario() {
         state = state.copy(
-            formularioValido = state.nombre.isNotBlank() &&
-                    state.numero.isNotBlank()
+            formularioValido =
+                    state.nombre.isNotBlank() &&
+                    state.numero.isNotBlank() &&
+                    state.apellidoPaterno.isNotBlank() &&
+                   // state.apellidoMaterno.isNotBlank() &&
+                    state.correo.isNotBlank()
         )
     }
 
