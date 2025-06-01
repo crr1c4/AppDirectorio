@@ -6,4 +6,7 @@ data class ContactoState(
     val apellidoMaterno: String = "",
     val correo: String = "",
     val numero: String = "",
+    val formularioValido: Boolean = false,
+    val edicionActiva: Boolean = false,
+    val contactoSeleccionado: Long? = null
 )
