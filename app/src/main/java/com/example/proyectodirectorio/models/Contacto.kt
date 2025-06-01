@@ -11,7 +11,8 @@ import androidx.room.PrimaryKey
  *
  * @property id Identificador único autogenerado (clave primaria)
  * @property nombre Primer nombre del contacto
- * @property apellido Apellido(s) del contacto
+ * @property apellidoPaterno Apellido paterno del contacto
+ * @property apellidoMaterno Apellido materno del contacto
  * @property numero Teléfono del contacto
  * @property correo Dirección de email del contacto
  *
@@ -25,8 +26,10 @@ data class Contacto(
     val id: Long = 0,
     @ColumnInfo(name = "nombre")
     val nombre: String,
-    @ColumnInfo(name = "apellido")
-    val apellido: String,
+    @ColumnInfo(name = "apellidoPaterno")
+    val apellidoPaterno: String,
+    @ColumnInfo(name = "apellidoMaterno")
+    val apellidoMaterno: String,
     @ColumnInfo(name = "numero")
     val numero: String,
     @ColumnInfo(name = "correo")
