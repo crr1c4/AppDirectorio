@@ -1,7 +1,6 @@
 package com.example.proyectodirectorio.di
 
 import android.content.Context
-import androidx.room.Room
 import androidx.room.Room.databaseBuilder
 import com.example.proyectodirectorio.room.ContactoDatabase
 import com.example.proyectodirectorio.room.ContactoDatabaseDao
