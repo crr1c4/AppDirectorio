@@ -1,5 +1,6 @@
 package com.example.proyectodirectorio.viewModels
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,8 +13,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,30 +26,6 @@ import javax.inject.Inject
 class ContactoViewModel @Inject constructor(
     private val repository: ContactoRepository
 ) : ViewModel() {
-
-    /* Barra de busqueda */
-    var textoBusqueda by mutableStateOf("")
-
-    val contactosFiltrados get(): List<Contacto> {
-        return if (textoBusqueda.isBlank()) {
-            contactosList.value
-        } else {
-            contactosList.value.filter {
-                it.nombre.contains(textoBusqueda, ignoreCase = true) ||
-                        it.apellidoPaterno.contains(textoBusqueda, ignoreCase = true) ||
-                        it.apellidoMaterno.contains(textoBusqueda, ignoreCase = true) ||
-                        it.numero.contains(textoBusqueda, ignoreCase = true) ||
-                        it.correo.contains(textoBusqueda, ignoreCase = true)
-            }
-        }
-    }
-
-    fun actualizarTextoBusqueda(texto: String) {
-        textoBusqueda = texto
-    }
-
-
-    /*ABC*/
 
     var state by mutableStateOf(ContactoState())
         private set
@@ -58,6 +39,28 @@ class ContactoViewModel @Inject constructor(
     init {
         cargarContactos()
     }
+
+    /* Barra de busqueda */
+    private val _textoBusqueda = MutableStateFlow("")
+    val textoBusqueda: StateFlow<String> = _textoBusqueda.asStateFlow()
+
+    val contactosFiltrados = combine(contactosList, textoBusqueda) { lista, filtro ->
+        if (filtro.isBlank()) lista
+        else lista.filter {
+            it.nombre.contains(filtro, true) ||
+                    it.apellidoPaterno.contains(filtro, true) ||
+                    it.apellidoMaterno.contains(filtro, true) ||
+                    it.numero.contains(filtro, true) ||
+                    it.correo.contains(filtro, true)
+        }
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+
+    fun actualizarTextoBusqueda(nuevoTexto: String) {
+        _textoBusqueda.value = nuevoTexto
+    }
+
+    /*ABC*/
 
     private fun cargarContactos() {
         contactoJob?.cancel()

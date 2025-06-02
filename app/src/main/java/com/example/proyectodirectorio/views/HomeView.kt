@@ -40,8 +40,8 @@ import me.saket.swipe.SwipeableActionsBox
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(navController: NavController, contactoVM: ContactoViewModel) {
-    val textoBusqueda = contactoVM.textoBusqueda
-    val contactosFiltrados = contactoVM.contactosFiltrados
+    val textoBusqueda by contactoVM.textoBusqueda.collectAsState()
+    val contactosFiltrados by contactoVM.contactosFiltrados.collectAsState()
     val contactos by contactoVM.contactosList.collectAsState()
 
     Scaffold(

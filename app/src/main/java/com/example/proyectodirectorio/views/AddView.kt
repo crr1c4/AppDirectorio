@@ -72,7 +72,6 @@ fun ContentAddContactView(
     it: PaddingValues,
     navController: NavController,
     contactoViewModel: ContactoViewModel,
-
 ) {
 
     val state = contactoViewModel.state
