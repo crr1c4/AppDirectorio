@@ -36,7 +36,6 @@ import com.example.proyectodirectorio.components.TituloPrincipal
 import com.example.proyectodirectorio.viewModels.ContactoViewModel
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.LaunchedEffect
 
@@ -72,7 +71,6 @@ fun ContentAddContactView(
     it: PaddingValues,
     navController: NavController,
     contactoViewModel: ContactoViewModel,
-
 ) {
 
     val state = contactoViewModel.state

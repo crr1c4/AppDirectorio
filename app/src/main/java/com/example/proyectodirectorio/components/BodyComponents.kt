@@ -38,11 +38,12 @@ import com.example.proyectodirectorio.models.Contacto
 import com.example.proyectodirectorio.viewModels.ContactoViewModel
 
 @Composable
-fun TituloPrincipal(title: String) {
+fun TituloPrincipal(title: String, color: Color = Color(0xFFD4FFD6)) {
     Text(
         text = title,
         style = MaterialTheme.typography.headlineMedium,
         fontWeight = FontWeight.W300,
+        color = color, // Aquí puedes cambiar el color
         modifier = Modifier.padding(vertical = 14.dp))
 }
 

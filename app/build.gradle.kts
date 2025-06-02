@@ -44,6 +44,11 @@ android {
 
 dependencies {
 
+    // implementation(libs.androidx.datastore.core.android)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("com.google.accompanist:accompanist-pager:0.30.1")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.30.1")
+
     val room_version = "2.6.1"
     implementation ("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")

@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,8 +39,8 @@ import me.saket.swipe.SwipeableActionsBox
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(navController: NavController, contactoVM: ContactoViewModel) {
-    val textoBusqueda = contactoVM.textoBusqueda
-    val contactosFiltrados = contactoVM.contactosFiltrados
+    val textoBusqueda by contactoVM.textoBusqueda.collectAsState()
+    val contactosFiltrados by contactoVM.contactosFiltrados.collectAsState()
     val contactos by contactoVM.contactosList.collectAsState()
 
     Scaffold(
