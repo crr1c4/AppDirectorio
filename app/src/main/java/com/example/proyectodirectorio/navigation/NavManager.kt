@@ -27,16 +27,17 @@ fun NavManager(contactoVM: ContactoViewModel) {
         }
 
         composable(
-            "details/{id}",
+            "edit/{id}",
             arguments = listOf(navArgument("id") {
                 type = NavType.LongType
             })
         ) { backStackEntry ->
-            val contactId = backStackEntry.arguments?.getLong("id") ?: 0L
-            DetailView(
+            val idContacto = backStackEntry.arguments?.getLong("id") ?: 0L
+
+            EditView(
                 navController = navController,
                 viewModel = contactoVM,
-                contactId = contactId
+                id = idContacto
             )
         }
     }

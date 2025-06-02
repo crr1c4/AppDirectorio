@@ -17,11 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -84,6 +80,7 @@ fun CampoEntrada(
         shape = RoundedCornerShape(12.dp),
 
         colors = OutlinedTextFieldDefaults.colors(
+            unfocusedTextColor = Color(0xFF212738),
             focusedTextColor = Color(0xFF212738),
             focusedBorderColor = Color(0xFF23CE6B),
             unfocusedBorderColor = Color(0xFF6A8D92),
@@ -96,134 +93,50 @@ fun CampoEntrada(
 
 
 @Composable
-fun ContactoCard(
+fun TarjetaContacto(
     contacto: Contacto,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        onClick = onClick,
+    Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.onSurface
-        ),
-        shape = MaterialTheme.shapes.medium
+            .background(Color.White)
+            .clickable { onClick() }
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.padding(20.dp)) {
-            // Nombre completo
+        Icon(
+            imageVector = Icons.Default.Person,
+            contentDescription = null,
+            tint = Color(0xFF23CE6B),
+            modifier = Modifier
+                .size(48.dp)
+                .padding(end = 12.dp)
+        )
+        Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = "${contacto.nombre} ${contacto.apellidoPaterno}",
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 12.dp)
+                text = "${contacto.nombre} ${contacto.apellidoPaterno} ${contacto.apellidoMaterno}",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF212738)
             )
-
-            // Teléfono
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Phone,
-                    contentDescription = "Teléfono",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = contacto.numero,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
-            // Correo
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 8.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Email,
-                    contentDescription = "Correo",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(12.dp))
-                Text(
-                    text = contacto.correo,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
-            // Línea inferior decorativa
-            HorizontalDivider(
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .fillMaxWidth(),
-                thickness = 0.5.dp,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.15f)
+            Text(
+                text = contacto.numero,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color(0xFF212738)
+            )
+            Text(
+                text = contacto.correo,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color(0xFF212738)
             )
         }
     }
 }
 
-
-@Composable
-fun ColumnaInformacionContacto(
-    icon: ImageVector,
-    content: String,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.size(20.dp)
-        )
-        Spacer(modifier = Modifier.width(12.dp))
-        Text(
-            text = content,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface
-        )
-    }
-}
-
-@Composable
-fun SeccionDetallesContactos(
-    title: String,
-    content: String,
-    modifier: Modifier = Modifier
-) {
-    Column(modifier = modifier.padding(vertical = 8.dp)) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f)
-        )
-        Text(
-            text = content,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(top = 4.dp)
-        )
-        HorizontalDivider(
-            modifier = Modifier.padding(top = 12.dp),
-            thickness = 1.dp,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
-        )
-    }
-}
-
 @Composable
 fun MensajeListaVacia(
-    onAddClick: (() -> Unit)? = null, // para botón opcional
     modifier: Modifier = Modifier
 ) {
     Column(

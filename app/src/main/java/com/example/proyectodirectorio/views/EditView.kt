@@ -1,30 +1,18 @@
 package com.example.proyectodirectorio.views
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SegmentedButtonDefaults.Icon
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,20 +25,17 @@ import com.example.proyectodirectorio.components.CampoEntrada
 import com.example.proyectodirectorio.components.MainIconButton
 import com.example.proyectodirectorio.components.TituloPrincipal
 import com.example.proyectodirectorio.viewModels.ContactoViewModel
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Done
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddView(navController: NavController, viewModel: ContactoViewModel) {
+fun EditView(navController: NavController, viewModel: ContactoViewModel, id: Long) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { TituloPrincipal(title = "Agregar Contacto") },
+                title = { TituloPrincipal(title = "Editar Contacto") },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color(0xFF212738), // azul muy claro para top bar
-                    titleContentColor = Color(0xFFEDF2EF) // azul oscuro para texto
+                    containerColor = Color(0xFF212738),
+                    titleContentColor = Color(0xFFEDF2EF)
                 ),
                 navigationIcon = {
                     MainIconButton(icon = Icons.AutoMirrored.Filled.ArrowBack) {
@@ -60,33 +45,35 @@ fun AddView(navController: NavController, viewModel: ContactoViewModel) {
             )
         }
     ) { innerPadding ->
-        ContentAddContactView(
+        ContentEditContactView(
             it = innerPadding,
             navController = navController,
             contactoViewModel = viewModel,
+            id = id
         )
     }
 }
 
 @Composable
-fun ContentAddContactView(
+fun ContentEditContactView(
     it: PaddingValues,
     navController: NavController,
     contactoViewModel: ContactoViewModel,
-
+    id: Long
 ) {
-
     val state = contactoViewModel.state
+
+    LaunchedEffect(key1 = id) {
+        contactoViewModel.cargarContactoParaEdicion(id);
+    }
 
     Column(
         modifier = Modifier
             .padding(it)
-          //  .padding(24.dp)
             .background(Color.White)
             .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Campo de nombre
         CampoEntrada(
             value = state.nombre,
             onValueChange = { contactoViewModel.actualizarNombre(it) },
@@ -94,7 +81,6 @@ fun ContentAddContactView(
             icon = Icons.Default.Person
         )
 
-        // Campo de apellido paterno
         CampoEntrada(
             value = state.apellidoPaterno,
             onValueChange = { contactoViewModel.actualizarApellidoPaterno(it) },
@@ -102,7 +88,6 @@ fun ContentAddContactView(
             icon = Icons.Default.Person
         )
 
-        // Campo de apellido materno
         CampoEntrada(
             value = state.apellidoMaterno,
             onValueChange = { contactoViewModel.actualizarApellidoMaterno(it) },
@@ -110,7 +95,6 @@ fun ContentAddContactView(
             icon = Icons.Default.Person
         )
 
-        // Campo de número telefónico
         CampoEntrada(
             value = state.numero,
             onValueChange = { contactoViewModel.actualizarNumero(it) },
@@ -119,7 +103,6 @@ fun ContentAddContactView(
             keyboardType = KeyboardType.Number
         )
 
-        // Campo de correo electrónico
         CampoEntrada(
             value = state.correo,
             onValueChange = { contactoViewModel.actualizarCorreo(it) },
@@ -130,10 +113,9 @@ fun ContentAddContactView(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-
         Button(
             onClick = {
-                contactoViewModel.agregarContacto()
+                contactoViewModel.actualizarContacto()
                 navController.popBackStack()
             },
             modifier = Modifier
@@ -143,13 +125,19 @@ fun ContentAddContactView(
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF23CE6B),
-                contentColor = Color(0xFFFFFFFF),
+                contentColor = Color.White,
                 disabledContainerColor = Color(0xFFD4FFD6),
-                disabledContentColor = Color(0xFFFFFFFF)
+                disabledContentColor = Color.White
             )
         ) {
+            Icon(
+                imageVector = Icons.Default.Edit,
+                contentDescription = "Actualizar contacto",
+                modifier = Modifier.size(18.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "Guardar contacto",
+                text = "Actualizar contacto",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
             )
