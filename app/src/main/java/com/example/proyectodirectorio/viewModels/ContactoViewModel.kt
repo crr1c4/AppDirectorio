@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,15 +22,36 @@ class ContactoViewModel @Inject constructor(
     private val repository: ContactoRepository
 ) : ViewModel() {
 
-    // Estado actual del formulario/UI
+    /* Barra de busqueda */
+    var textoBusqueda by mutableStateOf("")
+
+    val contactosFiltrados get(): List<Contacto> {
+        return if (textoBusqueda.isBlank()) {
+            contactosList.value
+        } else {
+            contactosList.value.filter {
+                it.nombre.contains(textoBusqueda, ignoreCase = true) ||
+                        it.apellidoPaterno.contains(textoBusqueda, ignoreCase = true) ||
+                        it.apellidoMaterno.contains(textoBusqueda, ignoreCase = true) ||
+                        it.numero.contains(textoBusqueda, ignoreCase = true) ||
+                        it.correo.contains(textoBusqueda, ignoreCase = true)
+            }
+        }
+    }
+
+    fun actualizarTextoBusqueda(texto: String) {
+        textoBusqueda = texto
+    }
+
+
+    /*ABC*/
+
     var state by mutableStateOf(ContactoState())
         private set
 
-    // Lista completa de contactos
     private val _contactosList = MutableStateFlow<List<Contacto>>(emptyList())
     val contactosList = _contactosList.asStateFlow()
 
-    // Job para operaciones asíncronas
     var contactoJob by mutableStateOf<Job?>(null)
         private set
 

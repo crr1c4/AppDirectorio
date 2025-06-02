@@ -65,6 +65,7 @@ fun ContentEditContactView(
 
     LaunchedEffect(key1 = id) {
         contactoViewModel.cargarContactoParaEdicion(id);
+        contactoViewModel.actualizarTextoBusqueda("")
     }
 
     Column(

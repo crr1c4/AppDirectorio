@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.proyectodirectorio.models.Contacto
+import com.example.proyectodirectorio.viewModels.ContactoViewModel
 
 @Composable
 fun TituloPrincipal(title: String) {
@@ -137,7 +138,8 @@ fun TarjetaContacto(
 
 @Composable
 fun MensajeListaVacia(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    mensaje: String
 ) {
     Column(
         modifier = modifier
@@ -166,7 +168,7 @@ fun MensajeListaVacia(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "¡No tienes contactos aún!",
+            text = mensaje,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.W200,
             style = MaterialTheme.typography.titleLarge.copy(
@@ -178,7 +180,7 @@ fun MensajeListaVacia(
         Text(
             text = "Presiona el botón para agregar uno nuevo",
             style = MaterialTheme.typography.bodyMedium.copy(
-                color = Color(0xFF6A8D92) // Gris azulado
+                color = Color(0xFF6A8D92)
             ),
             modifier = Modifier.padding(top = 8.dp),
             textAlign = TextAlign.Center

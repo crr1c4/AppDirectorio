@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -31,12 +33,15 @@ import com.example.proyectodirectorio.viewModels.ContactoViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import com.example.proyectodirectorio.components.CampoEntrada
 import me.saket.swipe.SwipeAction
 import me.saket.swipe.SwipeableActionsBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(navController: NavController, contactoVM: ContactoViewModel) {
+    val textoBusqueda = contactoVM.textoBusqueda
+    val contactosFiltrados = contactoVM.contactosFiltrados
     val contactos by contactoVM.contactosList.collectAsState()
 
     Scaffold(
@@ -62,6 +67,14 @@ fun HomeView(navController: NavController, contactoVM: ContactoViewModel) {
                 .fillMaxSize()
                 .background(Color(0xFFFFFFFF))
         ) {
+
+            CampoEntrada(
+                value = textoBusqueda,
+                onValueChange = { contactoVM.actualizarTextoBusqueda(it) },
+                label = "Busqueda",
+                icon = Icons.Default.Search
+            )
+
             if (contactos.isEmpty()) {
                 Column(
                     modifier = Modifier
@@ -70,7 +83,17 @@ fun HomeView(navController: NavController, contactoVM: ContactoViewModel) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    MensajeListaVacia()
+                    MensajeListaVacia(mensaje = "¡No tienes contactos aun!")
+                }
+            } else if (contactosFiltrados.isEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(24.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    MensajeListaVacia(mensaje = "No hay resultados que coincidan con tu busqueda.")
                 }
             } else {
                 LazyColumn(
@@ -78,7 +101,7 @@ fun HomeView(navController: NavController, contactoVM: ContactoViewModel) {
                     verticalArrangement = Arrangement.spacedBy(4.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(contactos, key = { it.id }) { contacto ->
+                    items(contactosFiltrados, key = { it.id }) { contacto ->
                         val eliminar = SwipeAction(
                             icon = rememberVectorPainter(Icons.Default.Delete),
                             background = Color(0xFFFF6868),
