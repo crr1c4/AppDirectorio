@@ -13,6 +13,8 @@ import com.example.proyectodirectorio.viewModels.ContactoViewModel
 import com.example.proyectodirectorio.views.*
 import androidx.compose.ui.platform.LocalContext
 import com.example.proyectodirectorio.dataStore.StoreBoarding
+import com.example.proyectodirectorio.onBoardViews.MainOnBoarding
+
 @Composable
 fun NavManager(contactoVM: ContactoViewModel) {
     val context = LocalContext.current
@@ -30,13 +32,12 @@ fun NavManager(contactoVM: ContactoViewModel) {
         }
 
         composable("splash") {
-            val context = LocalContext.current
-            val storeBoarding = remember { StoreBoarding(context) }
-            val store by storeBoarding.getStoreBoarding.collectAsState(initial = null)
-
-            SplashScreen(navController = navController, store = store, storeBoarding = storeBoarding)
+            SplashScreen(navController = navController, store.value)
         }
 
+        composable("onBoarding") {
+            MainOnBoarding(navController, dataStore)
+        }
 
         composable("add") {
             AddView(navController, contactoVM)
