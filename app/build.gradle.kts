@@ -43,37 +43,44 @@ android {
 }
 
 dependencies {
+    implementation ("com.google.dagger:hilt-android:2.48")
+    kapt ("com.google.dagger:hilt-compiler:2.48")
+    kaptAndroidTest ("com.google.dagger:hilt-compiler:2.48")
 
-    // implementation(libs.androidx.datastore.core.android)
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("com.google.accompanist:accompanist-pager:0.30.1")
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.30.1")
-
-    val room_version = "2.6.1"
-    implementation ("androidx.room:room-ktx:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
-
-// Dagger Core
-    implementation ("com.google.dagger:dagger:2.46.1")
-    kapt ("com.google.dagger:dagger-compiler:2.46.1")
-
-// Dagger Android
-    api ("com.google.dagger:dagger-android:2.46.1")
-    api ("com.google.dagger:dagger-android-support:2.46.1")
-    kapt ("com.google.dagger:dagger-android-processor:2.46.1")
-
-
-    //  Dagger Hilt
-    implementation ("com.google.dagger:hilt-android:2.46.1")
-    kapt ("com.google.dagger:hilt-compiler:2.46.1")
-
-    //Navigation
+    // Para corrutinas
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    //--OnBoarding
+    implementation("com.google.accompanist:accompanist-pager:0.15.0")
+    //-- Lottie
+    implementation("com.airbnb.android:lottie-compose:5.2.0")
+    //-- Navigation
     val nav_version = "2.5.3"
     implementation("androidx.navigation:navigation-compose:$nav_version")
+    //-- DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
 
-    // Swipe
-    implementation ("me.saket.swipe:swipe:1.1.1")
+    //-- Room
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-ktx:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
 
+    //-- Dagger Core
+    implementation("com.google.dagger:dagger:2.46.1")
+    kapt("com.google.dagger:dagger-compiler:2.46.1")
+
+    //-- Dagger Android
+    api("com.google.dagger:dagger-android:2.46.1")
+    api("com.google.dagger:dagger-android-support:2.46.1")
+    kapt("com.google.dagger:dagger-android-processor:2.46.1")
+
+    //-- Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.46.1")
+    kapt("com.google.dagger:hilt-compiler:2.46.1")
+
+    //-- Swipe
+    implementation("me.saket.swipe:swipe:1.1.1")
+
+    // Compose y librerías básicas
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -82,6 +89,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
