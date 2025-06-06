@@ -15,16 +15,18 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.rememberPagerState
 
 
-@OptIn(ExperimentalPagerApi::class,
-    ExperimentalFoundationApi::class)
+@OptIn(
+    ExperimentalPagerApi::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
-fun MainOnBoarding(navController: NavController,store: StoreBoarding){
-    val items= ArrayList<PageData>()
+fun MainOnBoarding(navController: NavController, store: StoreBoarding) {
+    val items = ArrayList<PageData>()
 
     items.add(
         PageData(
             R.raw.page1,
-            "Organiza tus contactos",
+            "¡Organizate!",
             "Guarda nombres, teléfonos y correos de forma rápida y segura."
         )
     )
@@ -35,26 +37,26 @@ fun MainOnBoarding(navController: NavController,store: StoreBoarding){
             "Encuentra cualquier contacto con solo escribir parte del nombre o número."
         )
     )
+
     items.add(
         PageData(
             R.raw.page3,
             "Tu agenda, siempre contigo",
-            "Accede a tus contactos en todo momento, sin complicaciones."
+            "Haga clic para entrar."
         )
     )
 
 
-    val pagerState= rememberPagerState(
+    val pagerState = rememberPagerState(
         pageCount = items.size,
         initialOffscreenLimit = 2,
-        infiniteLoop = false,
-        initialPage = 0,
+        infiniteLoop = false
     )
 
     OnBoardingPager(
-        item =items, pagerState = pagerState, modifier = Modifier
+        item = items, pagerState = pagerState, modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(Color.White), navController,store
+            .background(Color.White), navController, store
     )
 }
